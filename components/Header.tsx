@@ -1,5 +1,5 @@
 
-// import { LoginLink, RegisterLink } from '@kinde-oss/kinde-auth-nextjs'
+import { LoginLink, RegisterLink } from '@kinde-oss/kinde-auth-nextjs'
 import Image from 'next/image'
 import React from 'react'
 
@@ -46,7 +46,7 @@ function Header() {
             text-white transition "
            
           >
-            {/* <LoginLink postLoginRedirectURL="/dashboard"> Login</LoginLink> */}
+            <LoginLink postLoginRedirectURL="/dashboard"> Login</LoginLink>
           </div>
 
           <div
@@ -56,7 +56,7 @@ function Header() {
               hover:text-slate-800 sm:block"
            
           >
-          {/* <RegisterLink>Register</RegisterLink>   */}
+          <RegisterLink>Register</RegisterLink>  
           </div>
         </div>
 
