@@ -1,7 +1,7 @@
 import Header from "@/components/Header"
 import Hero from "@/components/Hero"
 
-const page = () => {
+const Home = () => {
   return (
     <div>
       <Header />
@@ -9,4 +9,4 @@ const page = () => {
     </div>
   )
 }
-export default page
+export default Home
