@@ -30,10 +30,10 @@ const DashboardLayout = ({
   return (
     <div>
       <div className="grid grid-cols-4">
-        <div>
+        <div className="h-screen w-72 fixed">
           <SideNavbar />
         </div>
-        <div className="grid-cols-3">{children}</div>
+        <div className="grid-cols-3 ml-72">{children}</div>
       </div>
     </div>
   );

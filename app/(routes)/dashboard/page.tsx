@@ -3,6 +3,7 @@ import { api } from "@/convex/_generated/api";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useConvex, useMutation, useQuery } from "convex/react";
 import { useEffect } from "react";
+import Header from "./_components/Header";
 
 function Dashboard() {
   const convex = useConvex();
@@ -32,8 +33,8 @@ function Dashboard() {
   }
 
   return (
-    <div>
-      Dashboard
+    <div className="p-8">
+      <Header />
     </div>
   )
 }
