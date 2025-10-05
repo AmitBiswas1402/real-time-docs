@@ -1,6 +1,6 @@
 "use client";
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
+import Header from "@/app/_components/Header";
+import Hero from "@/app/_components/Hero";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useEffect } from "react";
 

@@ -1,10 +1,10 @@
 "use client";
-import SideNavbar from "@/components/SideNavbar";
 import { api } from "@/convex/_generated/api";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useConvex } from "convex/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
+import SideNavbar from "./_components/SideNavbar";
 
 const DashboardLayout = ({
   children,

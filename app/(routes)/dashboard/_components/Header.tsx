@@ -13,18 +13,22 @@ function Header() {
       : "/default-avatar.png";
 
   return (
-    <div className="flex justify-start w-screen gap-2 items-center">
-      <div className="flex gap-2 items-center border rounded-md p-1">
-        <Search className="h-4 w-4" />
-        <input type="text" placeholder="Search" />
+    <div className="flex justify-end w-full gap-4 items-center">
+      <div className="flex gap-2 items-center border rounded-md p-2 w-64 bg-white">
+        <Search className="h-4 w-4 text-gray-500" />
+        <input
+          type="text"
+          placeholder="Search"
+          className="w-full outline-none text-sm"
+        />
       </div>
 
       <div>
         <Image
           src={profileSrc}
           alt="user"
-          width={30}
-          height={30}
+          width={32}
+          height={32}
           className="rounded-full cursor-pointer"
         />
       </div>

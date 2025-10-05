@@ -1,4 +1,7 @@
 import { Archive, Flag, Github } from "lucide-react";
+
+import { useState } from "react";
+import constants from "@/constants/Constants";
 import {
   Dialog,
   DialogClose,
@@ -8,11 +11,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { useState } from "react";
-import constants from "@/constants/Constants";
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 const SideNavBottomSec = ({ onFileCreate, totalFiles }: any) => {
   const menuList = [

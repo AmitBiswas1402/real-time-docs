@@ -6,12 +6,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs";
-import { Separator } from "./ui/separator";
 import { useConvex } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "./ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 
 // interface UserProps {
 //   user: any;
