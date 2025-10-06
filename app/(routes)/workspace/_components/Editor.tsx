@@ -1,6 +1,9 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import type EditorJS from "@editorjs/editorjs";
+import { toast } from "sonner";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 const rawDocument = {
   time: 1550476186479,
@@ -24,13 +27,38 @@ const rawDocument = {
   version: "2.8.1",
 };
 
-const Editor = () => {
+interface FILE {
+  archive: boolean;
+  createdBt: string;
+  document: string;
+  fileName: string;
+  teamId: string;
+  whiteboard: string;
+  _id: string;
+  _creationTime: number;
+}
+
+const Editor = ({
+  onSaveTrigger,
+  fileId,
+  fileData,
+}: {
+  onSaveTrigger: any;
+  fileId: any;
+  fileData: FILE;
+}) => {
   const ref = useRef<EditorJS | null>(null);
+  const updateDocument = useMutation(api.files.updateDocument);
   const [document, setDocument] = useState(rawDocument);
 
   useEffect(() => {
-    inItEditor();
-  }, []);
+    console.log("Trigger Value: ", onSaveTrigger);
+    onSaveTrigger && onSaveDocument();
+  }, [onSaveTrigger]);
+
+  useEffect(() => {
+    fileData && inItEditor();
+  }, [fileData]);
 
   const inItEditor = async () => {
     const EditorJS = (await import("@editorjs/editorjs")).default;
@@ -71,11 +99,36 @@ const Editor = () => {
         },
       },
       holder: "editorjs",
-      data: document
+      data: fileData.document ? JSON.parse(fileData.document) : rawDocument,
     });
 
     ref.current = editor;
   };
+
+  const onSaveDocument = () => {
+    if (ref.current) {
+      ref.current
+        .save()
+        .then((outputData) => {
+          console.log("Article data: ", outputData);
+          updateDocument({
+            _id: fileId,
+            document: JSON.stringify(outputData),
+          }).then(
+            (res) => {
+              toast.success("Document Updated!");
+            },
+            (e) => {
+              toast("Server Error!");
+            }
+          );
+        })
+        .catch((error) => {
+          console.log("Saving failed: ", error);
+        });
+    }
+  };
+
   return (
     <div>
       <div id="editorjs" className="ml-20"></div>
