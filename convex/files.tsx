@@ -37,7 +37,10 @@ export const updateDocument = mutation({
     document: v.string(),
   },
   handler: async (ctx, args) => {
-    const result = await ctx.db.patch(args._id, { document: args.document });
+    const result = await ctx.db.patch(args._id, {
+      document: args.document,
+      lastEdited: Date.now(),
+    });
     return result;
   },
 });
@@ -50,6 +53,7 @@ export const updateWhiteboard = mutation({
   handler: async (ctx, args) => {
     const result = await ctx.db.patch(args._id, {
       whiteboard: args.whiteboard,
+      lastEdited: Date.now(),
     });
     return result;
   },

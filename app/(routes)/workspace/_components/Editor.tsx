@@ -36,6 +36,7 @@ interface FILE {
   whiteboard: string;
   _id: string;
   _creationTime: number;
+  lastEdited?: number;
 }
 
 const Editor = ({
@@ -116,7 +117,7 @@ const Editor = ({
             document: JSON.stringify(outputData),
           }).then(
             (res) => {
-              toast.success("Document Updated!");
+              toast.success("Document Updated ✅");
             },
             (e) => {
               toast("Server Error!");

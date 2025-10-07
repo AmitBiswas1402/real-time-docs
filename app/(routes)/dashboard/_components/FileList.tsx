@@ -21,6 +21,7 @@ interface FILE {
   whiteboard: string;
   _id: string;
   _creationTime: number;
+  lastEdited?: number;
 }
 
 const FileList = () => {
@@ -69,7 +70,7 @@ const FileList = () => {
                     {moment(file._creationTime).format("DD MMM YYYY")}
                   </td>
                   <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                    {moment(file._creationTime).format("DD MMM YYYY")}
+                    {moment(file.lastEdited || file._creationTime).fromNow()}
                   </td>
                   <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                     {user && (

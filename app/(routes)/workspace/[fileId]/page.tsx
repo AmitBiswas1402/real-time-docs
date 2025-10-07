@@ -53,8 +53,12 @@ const WorkSpace = ({ params }: { params: Promise<WorkSpaceParams> }) => {
             fileData={fileData}
           />
         </div>
-        <div>
-            <Canvas />
+        <div className="h-screen border-l">
+          <Canvas
+            onSaveTrigger={triggerSave}
+            fileId={unwrappedParams.fileId}
+            fileData={fileData}
+          />
         </div>
       </div>
     </div>

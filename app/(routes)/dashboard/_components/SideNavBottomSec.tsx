@@ -88,7 +88,7 @@ const SideNavBottomSec = ({ onFileCreate, totalFiles }: any) => {
       <div className="h-4 w-full bg-gray-200 rounded-full mt-5">
         <div
           className={`h-4  bg-blue-600 rounded-full`}
-          style={{ width: `${(totalFiles / 5) * 100}%` }}
+          style={{ width: `${(totalFiles / 100) * 100}%` }}
         ></div>
       </div>
 

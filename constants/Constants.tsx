@@ -1,5 +1,5 @@
 const constants = {
-    MAX_FREE_FILE: 5
+    MAX_FREE_FILE: 100
 };
 
 export default constants;
