@@ -131,9 +131,9 @@ const SideNavTopSec = ({ user, setActiveTeamInfo }: any) => {
       </Popover>
 
       {/* All file button */}
-      <Button variant="outline" className="w-full justify-start gap-2 font-bold mt-8 bg-gray-100 cursor-pointer">
+      {/* <Button variant="outline" className="w-full justify-start gap-2 font-bold mt-8 bg-gray-100 cursor-pointer">
         <LayoutGrid className="h-5 w-5" /> All Files
-      </Button>
+      </Button> */}
     </div>
   );
 };

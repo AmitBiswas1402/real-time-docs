@@ -9,8 +9,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Archive, MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { useConvex, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 interface FILE {
   archive: boolean;
@@ -29,10 +32,29 @@ const FileList = () => {
   const { fileList_, setFileList_ } = useContext(FileListContext);
   const [fileList, setfileList] = useState<any>();
   const router = useRouter();
+  const convex = useConvex();
+
+  const deleteFile = useMutation(api.files.deleteFile);
 
   useEffect(() => {
     fileList_ && setfileList(fileList_);
   }, [fileList_]);
+
+  const onFileDelete = async (fileId: string) => {
+    try {
+      await deleteFile({ _id: fileId as any });
+      toast.success("File deleted successfully!");
+
+      // refresh the file list
+      const updatedFiles = await convex.query(api.files.getFiles, {
+        teamId: fileList_[0]?.teamId, // assumes files share same team
+      });
+      setFileList_(updatedFiles);
+    } catch (error) {
+      console.error(error);
+      toast.error("Error deleting file!");
+    }
+  };
 
   return (
     <div className="mt-5">
@@ -89,8 +111,14 @@ const FileList = () => {
                         <MoreHorizontal />
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
-                        <DropdownMenuItem className="gap-3">
-                          <Archive className="h-4 w-4" /> Archive
+                        <DropdownMenuItem
+                          className="gap-3 text-red-600"
+                          onClick={(e) => {
+                            e.stopPropagation(); // prevent navigation
+                            onFileDelete(file._id);
+                          }}
+                        >
+                          <Trash2 className="h-4 w-4" /> Delete
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>

@@ -41,7 +41,7 @@ const SideNavBottomSec = ({ onFileCreate, totalFiles }: any) => {
 
   return (
     <div>
-      {menuList.map((menu, index) => (
+      {/* {menuList.map((menu, index) => (
         <h2
           key={index}
           className="flex gap-2 p-1 px-2 text-[14px] hover:bg-gray-100 rounded-md cursor-pointer"
@@ -49,12 +49,12 @@ const SideNavBottomSec = ({ onFileCreate, totalFiles }: any) => {
           <menu.icon className="h-5 w-5" />
           {menu.name}
         </h2>
-      ))}
+      ))} */}
 
       {/* Add new file button */}
       <Dialog>
         <DialogTrigger className="w-full" asChild>
-          <Button className="w-full bg-blue-600 hover:bg-blue-700 justify-start mt-3 cursor-pointer">
+          <Button className="w-full text-center bg-blue-600 hover:bg-blue-700 justify-start mt-3 cursor-pointer">
             New File
           </Button>
         </DialogTrigger>
@@ -88,7 +88,7 @@ const SideNavBottomSec = ({ onFileCreate, totalFiles }: any) => {
       <div className="h-4 w-full bg-gray-200 rounded-full mt-5">
         <div
           className={`h-4  bg-blue-600 rounded-full`}
-          style={{ width: `${(totalFiles / 100) * 100}%` }}
+          style={{ width: `${(totalFiles / 10) * 100}%` }}
         ></div>
       </div>
 
@@ -96,9 +96,9 @@ const SideNavBottomSec = ({ onFileCreate, totalFiles }: any) => {
         <strong>{totalFiles}</strong> out of{" "}
         <strong>{constants.MAX_FREE_FILE}</strong> files used
       </h2>
-      <h2 className="text-[12px] mt-1">
+      {/* <h2 className="text-[12px] mt-1">
         Upgrade your plan for unlimited access.
-      </h2>
+      </h2> */}
     </div>
   );
 };
