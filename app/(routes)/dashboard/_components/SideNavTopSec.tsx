@@ -26,12 +26,6 @@ const SideNavTopSec = ({ user, setActiveTeamInfo }: any) => {
       path: "/teams/create",
       icon: Users,
     },
-    {
-      id: 2,
-      name: "Settings",
-      path: "",
-      icon: Settings,
-    },
   ];
 
   const router = useRouter();
@@ -78,7 +72,7 @@ const SideNavTopSec = ({ user, setActiveTeamInfo }: any) => {
             {teamList?.map((team, index) => (
               <h2
                 key={index}
-                className={`p-2 hover:bg-blue-500 hover:text-white rounded-lg mb-1 cursor-pointer ${activeTeam?._id == team._id && "bg-blue-500 text-white"}`}
+                className={`p-2 hover:bg-blue-500 rounded-lg mb-1 cursor-pointer ${activeTeam?._id == team._id && "bg-blue-500 text-white"}`}
                 onClick={() => setActiveTeam(team)}
               >
                 {team.teamName}
@@ -90,7 +84,7 @@ const SideNavTopSec = ({ user, setActiveTeamInfo }: any) => {
             {menu.map((item, index) => (
               <h2
                 key={index}
-                className="flex gap-2 items-center p-2 hover:bg-gray-100 rounded-lg cursor-pointer"
+                className="flex gap-2 items-center p-2 hover:bg-blue-500 rounded-lg cursor-pointer"
                 onClick={() => onMenuClick(item)}
               >
                 <item.icon className="h-4 w-4" />
@@ -98,7 +92,7 @@ const SideNavTopSec = ({ user, setActiveTeamInfo }: any) => {
               </h2>
             ))}
             <LogoutLink>
-              <h2 className="flex gap-2 items-center p-2 hover:bg-gray-100 rounded-lg cursor-pointer">
+              <h2 className="flex gap-2 items-center p-2 hover:bg-red-500 rounded-lg cursor-pointer">
                 <LogOut className="h-4 w-4" />
                 Logout
               </h2>

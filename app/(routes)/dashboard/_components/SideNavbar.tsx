@@ -51,7 +51,7 @@ const SideNavbar = () => {
   };
 
   return (
-    <div className="h-screen fixed w-64 border-r border-[1px] p-6 flex flex-col">
+    <div className="h-screen fixed w-56 border-r border-[1px] p-6 flex flex-col">
       <div className="flex-1">
         <SideNavTopSec
           user={user}
