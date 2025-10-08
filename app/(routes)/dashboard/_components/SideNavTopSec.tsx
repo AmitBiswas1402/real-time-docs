@@ -11,13 +11,6 @@ import { api } from "@/convex/_generated/api";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-
-// interface UserProps {
-//   user: any;
-//   users?: any;
-//   setActiveTeamInfo: any;
-// }
 
 export interface TEAM {
   createdBy: String;
@@ -50,10 +43,10 @@ const SideNavTopSec = ({ user, setActiveTeamInfo }: any) => {
     user && getTeamList();
   }, [user]);
 
-  useEffect(()=> {
-    activeTeam && setActiveTeamInfo(activeTeam)
-  }, [activeTeam])
-  
+  useEffect(() => {
+    activeTeam && setActiveTeamInfo(activeTeam);
+  }, [activeTeam]);
+
   const getTeamList = async () => {
     const result = await convex.query(api.teams.getTeam, {
       email: user?.email,
@@ -72,7 +65,7 @@ const SideNavTopSec = ({ user, setActiveTeamInfo }: any) => {
     <div>
       <Popover>
         <PopoverTrigger>
-          <div className="flex items-center gap-3 hover:bg-slate-200 p-2 rounded-md cursor-pointer">
+          <div className="flex items-center gap-3 p-2 rounded-md cursor-pointer">
             <Image src="/logo-1.png" alt="" width={40} height={40} />
             <h2 className="flex gap-2 items-center font-bold text-[17px]">
               {activeTeam?.teamName}
@@ -129,11 +122,6 @@ const SideNavTopSec = ({ user, setActiveTeamInfo }: any) => {
           )}
         </PopoverContent>
       </Popover>
-
-      {/* All file button */}
-      {/* <Button variant="outline" className="w-full justify-start gap-2 font-bold mt-8 bg-gray-100 cursor-pointer">
-        <LayoutGrid className="h-5 w-5" /> All Files
-      </Button> */}
     </div>
   );
 };

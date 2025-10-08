@@ -43,7 +43,10 @@ const WorkSpace = ({ params }: { params: Promise<WorkSpaceParams> }) => {
 
   return (
     <div>
-      <WorkSpaceHeader onSave={() => setTriggerSave(!triggerSave)} />
+      <WorkSpaceHeader
+        fileId={fileData?._id || unwrappedParams.fileId}
+        onSave={() => setTriggerSave(!triggerSave)}
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-2">
         <div className="h-screen">

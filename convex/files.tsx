@@ -78,3 +78,17 @@ export const deleteFile = mutation({
     return { success: true };
   },
 });
+
+export const renameFile = mutation({
+  args: {
+    _id: v.id("files"),       // file ID
+    newName: v.string(),      // new file name
+  },
+  handler: async (ctx, args) => {
+    const result = await ctx.db.patch(args._id, {
+      fileName: args.newName,
+      lastEdited: Date.now(),  // optional: update last edited timestamp
+    });
+    return result;
+  },
+});
