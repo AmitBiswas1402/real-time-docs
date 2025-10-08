@@ -6,6 +6,7 @@ import { MainMenu, WelcomeScreen } from "@excalidraw/excalidraw";
 import { useEffect, useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { useTheme } from "next-themes"; 
 
 const Excalidraw = dynamic(
   async () => (await import("@excalidraw/excalidraw")).Excalidraw,
@@ -33,9 +34,11 @@ export default function Canvas({
   fileData: FILE;
 }) {
   const [whiteBoardData, setWhiteBoardData] = useState<any>();
-  const [canvasHeight, setCanvasHeight] = useState("100vh"); 
+  const [canvasHeight, setCanvasHeight] = useState("100vh");
 
   const updateWhiteboard = useMutation(api.files.updateWhiteboard);
+  const { theme, systemTheme } = useTheme(); 
+  const currentTheme = theme === "system" ? systemTheme : theme;
 
   useEffect(() => {
     if (onSaveTrigger) saveWhiteBoard();
@@ -43,13 +46,12 @@ export default function Canvas({
 
   useEffect(() => {
     const updateHeight = () => {
-      const headerHeight = document.querySelector("header")?.offsetHeight || 60; 
+      const headerHeight = document.querySelector("header")?.offsetHeight || 60;
       setCanvasHeight(`${window.innerHeight - headerHeight}px`);
     };
 
-    updateHeight(); 
+    updateHeight();
     window.addEventListener("resize", updateHeight);
-
     return () => window.removeEventListener("resize", updateHeight);
   }, []);
 
@@ -66,20 +68,27 @@ export default function Canvas({
   };
 
   return (
-    <div style={{ height: canvasHeight, transition: "height 0.2s ease" }}>
+    <div
+      style={{ height: canvasHeight, transition: "height 0.2s ease" }}
+      className="bg-white dark:bg-[#1e1e1e]"
+    >
       {fileData && (
         <Excalidraw
+          theme={currentTheme === "dark" ? "dark" : "light"} 
           initialData={{
-            elements:
-              fileData?.whiteboard && JSON.parse(fileData?.whiteboard)
+            elements: fileData?.whiteboard && JSON.parse(fileData?.whiteboard),
           }}
           onChange={(elements) => setWhiteBoardData(elements)}
+          UIOptions={{
+            canvasActions: {
+              toggleTheme: false, 
+            },
+          }}
         >
           <MainMenu>
             <MainMenu.DefaultItems.ClearCanvas />
             <MainMenu.DefaultItems.Export />
             <MainMenu.DefaultItems.CommandPalette />
-            <MainMenu.DefaultItems.ToggleTheme />
             <MainMenu.DefaultItems.ChangeCanvasBackground />
           </MainMenu>
 

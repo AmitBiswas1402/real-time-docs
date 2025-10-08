@@ -34,7 +34,7 @@ function Dashboard() {
   };
 
   return (
-    <div className="fixed top-0 left-[16rem] right-0 bottom-0 p-8 overflow-hidden bg-white">
+    <div className="fixed top-0 left-[16rem] right-0 bottom-0 p-8 overflow-hidden">
       {/* Header section */}
       <Header />
 

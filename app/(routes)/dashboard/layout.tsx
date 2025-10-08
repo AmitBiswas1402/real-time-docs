@@ -1,4 +1,5 @@
 "use client";
+
 import { api } from "@/convex/_generated/api";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useConvex } from "convex/react";
@@ -6,6 +7,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import SideNavbar from "./_components/SideNavbar";
 import { FileListContext } from "./_context/FilesListContext";
+import { ThemeProvider } from "next-themes";
 
 const DashboardLayout = ({
   children,
@@ -30,17 +32,22 @@ const DashboardLayout = ({
   };
 
   return (
-    <div>
-      <FileListContext.Provider value={{fileList_, setFileList_}}>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <FileListContext.Provider value={{ fileList_, setFileList_ }}>
+        <div className="grid grid-cols-4">
+          <div className="h-screen w-72 fixed">
+            <SideNavbar />
+          </div>
 
-      <div className="grid grid-cols-4">
-        <div className="h-screen w-72 fixed">
-          <SideNavbar />
+          <div className="grid-cols-3 ml-72">{children}</div>
         </div>
-        <div className="grid-cols-3 ml-72">{children}</div>
-      </div>
       </FileListContext.Provider>
-    </div>
+    </ThemeProvider>
   );
 };
 

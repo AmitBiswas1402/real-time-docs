@@ -3,13 +3,7 @@ import { FileListContext } from "../_context/FilesListContext";
 import moment from "moment";
 import Image from "next/image";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useConvex, useMutation } from "convex/react";
@@ -30,14 +24,13 @@ interface FILE {
 const FileList = () => {
   const { user }: any = useKindeBrowserClient();
   const { fileList_, setFileList_ } = useContext(FileListContext);
-  const [fileList, setfileList] = useState<any>();
+  const [fileList, setfileList] = useState<FILE[]>([]);
   const router = useRouter();
   const convex = useConvex();
-
   const deleteFile = useMutation(api.files.deleteFile);
 
   useEffect(() => {
-    fileList_ && setfileList(fileList_);
+    if (fileList_) setfileList(fileList_);
   }, [fileList_]);
 
   const onFileDelete = async (fileId: string) => {
@@ -45,9 +38,9 @@ const FileList = () => {
       await deleteFile({ _id: fileId as any });
       toast.success("File deleted successfully!");
 
-      // refresh the file list
+      // refresh file list
       const updatedFiles = await convex.query(api.files.getFiles, {
-        teamId: fileList_[0]?.teamId, // assumes files share same team
+        teamId: fileList_[0]?.teamId,
       });
       setFileList_(updatedFiles);
     } catch (error) {
@@ -58,46 +51,43 @@ const FileList = () => {
 
   return (
     <div className="mt-5">
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y-2 divide-gray-200">
+      <div className="overflow-x-auto rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <table className="min-w-full divide-y-2 divide-gray-200 dark:divide-gray-700">
+          {/* Table Head */}
           <thead className="ltr:text-left rtl:text-right">
-            <tr>
-              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                File Name
-              </td>
-              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Created At
-              </td>
-              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Edited
-              </td>
-              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Author
-              </td>
+            <tr className="*:font-medium *:text-gray-900 dark:*:text-white">
+              <th className="px-4 py-3 whitespace-nowrap">File Name</th>
+              <th className="px-4 py-3 whitespace-nowrap">Created At</th>
+              <th className="px-4 py-3 whitespace-nowrap">Edited</th>
+              <th className="px-4 py-3 whitespace-nowrap">Author</th>
+              <th className="px-4 py-3 whitespace-nowrap text-center">
+                Actions
+              </th>
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-gray-200 *:even:bg-gray-50">
-            {fileList &&
-              fileList.map((file: FILE, index: number) => (
+          {/* Table Body */}
+          <tbody className="divide-y divide-gray-200 *:even:bg-gray-50 dark:divide-gray-700 dark:*:even:bg-gray-800">
+            {fileList?.length ? (
+              fileList.map((file: FILE) => (
                 <tr
-                  key={index}
-                  className="odd:bg-gray-50 cursor-pointer"
+                  key={file._id}
+                  className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                   onClick={() => router.push("/workspace/" + file._id)}
                 >
-                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  <td className="px-4 py-3 font-medium text-gray-900 dark:text-gray-100">
                     {file.fileName}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  <td className="px-4 py-3 text-gray-700 dark:text-gray-300">
                     {moment(file._creationTime).format("DD MMM YYYY")}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                  <td className="px-4 py-3 text-gray-700 dark:text-gray-300">
                     {moment(file.lastEdited || file._creationTime).fromNow()}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                  <td className="px-4 py-3 text-gray-700 dark:text-gray-300">
                     {user && (
                       <Image
-                        src={user?.picture}
+                        src={user.picture ?? "/default-avatar.png"}
                         alt="user"
                         width={30}
                         height={30}
@@ -105,26 +95,29 @@ const FileList = () => {
                       />
                     )}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger>
-                        <MoreHorizontal />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuItem
-                          className="gap-3 text-red-600"
-                          onClick={(e) => {
-                            e.stopPropagation(); // prevent navigation
-                            onFileDelete(file._id);
-                          }}
-                        >
-                          <Trash2 className="h-4 w-4" /> Delete
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                  <td
+                    className="px-4 py-3 text-center"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button
+                      onClick={() => onFileDelete(file._id)}
+                      className="p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
+                    >
+                      <Trash2 className="h-4 w-4 text-red-600 dark:text-red-400" />
+                    </button>
                   </td>
                 </tr>
-              ))}
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={5}
+                  className="px-4 py-6 text-center text-gray-500 dark:text-gray-400"
+                >
+                  No files found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
