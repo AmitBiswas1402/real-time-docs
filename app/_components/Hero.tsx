@@ -2,44 +2,35 @@ import React from "react";
 
 function Hero() {
   return (
-    <section className="bg-black">
-      <div
-        className="flex items-baseline 
-        justify-center pt-20"
-      >
-        <h2
-          className="text-white border 
-            px-3 p-2 rounded-full
-        text-center border-white"
-        >
-          See What&apos;s New | <span className="text-sky-300">AI Diagram</span>
-        </h2>
-      </div>
-      <div className="mx-auto h-screen max-w-screen-xl px-4 py-12 lg:flex  ">
-        <div className="mx-auto max-w-xl text-center">
-          <h1 className="text-3xl text-sky-300 font-extrabold sm:text-5xl">
+    <main className="relative min-h-screen flex flex-col justify-center items-center text-center px-6 bg-gradient-to-b from-black via-slate-900 to-black overflow-hidden">
+      {/* Soft gradient glow behind text */}
+      <div className="absolute -top-40 w-[400px] h-[400px] bg-sky-500/10 blur-[100px] rounded-full" />
+      <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-blue-400/10 blur-[120px] rounded-full" />
+
+      <div className="relative z-10 max-w-4xl">
+        <h1 className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight">
+          <span className="bg-gradient-to-r from-sky-400 to-cyan-300 bg-clip-text text-transparent">
             Documents & diagrams
-            <strong className="font-extrabold text-white sm:block">
-              for engineering teams.{" "}
-            </strong>
-          </h1>
+          </span>
+          <strong className="block mt-3 text-white font-extrabold">
+            for engineering teams.
+          </strong>
+        </h1>
 
-          <p className="mt-4 sm:text-xl/relaxed text-slate-200">
-            All-in-one markdown editor, collaborative canvas, and
-            diagram-as-code builder
-          </p>
+        <p className="mt-6 text-lg sm:text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto">
+          All-in-one markdown editor, collaborative canvas, and diagram-as-code builder.
+        </p>
 
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <a
-              className="block w-full rounded bg-white text-black px-12 py-3 text-sm font-medium  shadow hover:bg-slate-600 focus:outline-none focus:ring active:bg-red-500 sm:w-auto"
-              href="#"
-            >
-              Learn More
-            </a>
-          </div>
+        <div className="mt-8 flex justify-center gap-4">
+          <button className="px-5 py-2.5 rounded-lg bg-sky-500 hover:bg-sky-600 text-white font-semibold transition-all">
+            Get Started
+          </button>
+          <button className="px-5 py-2.5 rounded-lg border border-sky-400 text-sky-300 hover:bg-sky-800/20 font-semibold transition-all">
+            Learn More
+          </button>
         </div>
       </div>
-    </section>
+    </main>
   );
 }
 
