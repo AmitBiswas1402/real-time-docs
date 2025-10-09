@@ -7,10 +7,11 @@ import Image from "next/image";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface WorkSpaceHeaderProps {
   onSave: () => void;
-  fileId: string; 
+  fileId: string;
 }
 
 const WorkSpaceHeader = ({ onSave, fileId }: WorkSpaceHeaderProps) => {
@@ -19,6 +20,17 @@ const WorkSpaceHeader = ({ onSave, fileId }: WorkSpaceHeaderProps) => {
 
   // Fetch the file from Convex
   const fileData = useQuery(api.files.getFileById, { _id: fileId as any });
+
+  // ✅ Copy URL function
+  const handleShare = async () => {
+    try {
+      const url = `${window.location.origin}/workspace/${fileId}`;
+      await navigator.clipboard.writeText(url);
+      toast("Link copied ✅");
+    } catch (err) {
+      toast("Failed to copy!");
+    }
+  };
 
   return (
     <div className="p-3 border-b flex justify-between items-center bg-background text-foreground">
@@ -55,8 +67,11 @@ const WorkSpaceHeader = ({ onSave, fileId }: WorkSpaceHeaderProps) => {
           <Save className="h-4 w-4" /> Save
         </Button>
 
-        {/* Share Button */}
-        <Button className="h-8 text-[12px] gap-2 bg-blue-600 hover:bg-blue-700 cursor-pointer">
+        {/* ✅ Share Button */}
+        <Button
+          className="h-8 text-[12px] gap-2 bg-blue-600 hover:bg-blue-700 cursor-pointer"
+          onClick={handleShare}
+        >
           Share <Link className="h-4 w-4" />
         </Button>
       </div>
