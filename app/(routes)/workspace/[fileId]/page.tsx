@@ -54,8 +54,6 @@ const WorkSpace = ({ params }: { params: Promise<WorkSpaceParams> }) => {
   const handleMouseMove = (e: MouseEvent) => {
     if (!isDragging) return;
     const newLeftWidth = (e.clientX / window.innerWidth) * 100;
-
-    // Clamp between 25% and 75%
     const clampedWidth = Math.min(Math.max(newLeftWidth, 33.33), 66.66);
     setLeftWidth(clampedWidth);
   };
@@ -70,14 +68,14 @@ const WorkSpace = ({ params }: { params: Promise<WorkSpaceParams> }) => {
   }, [isDragging]);
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <WorkSpaceHeader
         fileId={fileData?._id || unwrappedParams.fileId}
         onSave={() => setTriggerSave(!triggerSave)}
       />
 
       {/* View Mode Switcher */}
-      <div className="flex justify-center gap-2 py-2 border-b bg-white text-black dark:bg-neutral-900 dark:text-white transition-colors">
+      <div className="flex justify-center gap-2 py-2 border-b bg-white text-black dark:bg-neutral-900 dark:text-white transition-colors sticky top-0 z-10">
         <button
           onClick={() => setActiveView("document")}
           className={`px-3 py-1 rounded transition-colors cursor-pointer ${
@@ -113,10 +111,14 @@ const WorkSpace = ({ params }: { params: Promise<WorkSpaceParams> }) => {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex flex-1 overflow-hidden">
+      <div
+        className={`flex flex-col md:flex-row w-full ${
+          activeView === "both" ? "border-t border-gray-700" : ""
+        }`}
+      >
         {(activeView === "document" || activeView === "both") && (
           <div
-            className={`h-full ${
+            className={`${
               activeView === "both" ? "border-r border-gray-700" : ""
             }`}
             style={{
@@ -131,7 +133,6 @@ const WorkSpace = ({ params }: { params: Promise<WorkSpaceParams> }) => {
           </div>
         )}
 
-        {/* Draggable Divider */}
         {activeView === "both" && (
           <div
             onMouseDown={handleMouseDown}
@@ -145,7 +146,6 @@ const WorkSpace = ({ params }: { params: Promise<WorkSpaceParams> }) => {
 
         {(activeView === "canvas" || activeView === "both") && (
           <div
-            className="h-full"
             style={{
               width: activeView === "both" ? `${100 - leftWidth}%` : "100%",
             }}

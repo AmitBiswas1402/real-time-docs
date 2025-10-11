@@ -6,7 +6,7 @@ import { MainMenu, WelcomeScreen } from "@excalidraw/excalidraw";
 import { useEffect, useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useTheme } from "next-themes"; 
+import { useTheme } from "next-themes";
 
 const Excalidraw = dynamic(
   async () => (await import("@excalidraw/excalidraw")).Excalidraw,
@@ -34,26 +34,13 @@ export default function Canvas({
   fileData: FILE;
 }) {
   const [whiteBoardData, setWhiteBoardData] = useState<any>();
-  const [canvasHeight, setCanvasHeight] = useState("100vh");
-
   const updateWhiteboard = useMutation(api.files.updateWhiteboard);
-  const { theme, systemTheme } = useTheme(); 
+  const { theme, systemTheme } = useTheme();
   const currentTheme = theme === "system" ? systemTheme : theme;
 
   useEffect(() => {
     if (onSaveTrigger) saveWhiteBoard();
   }, [onSaveTrigger]);
-
-  useEffect(() => {
-    const updateHeight = () => {
-      const headerHeight = document.querySelector("header")?.offsetHeight || 60;
-      setCanvasHeight(`${window.innerHeight - headerHeight}px`);
-    };
-
-    updateHeight();
-    window.addEventListener("resize", updateHeight);
-    return () => window.removeEventListener("resize", updateHeight);
-  }, []);
 
   const saveWhiteBoard = async () => {
     try {
@@ -69,37 +56,40 @@ export default function Canvas({
 
   return (
     <div
-      style={{ height: canvasHeight, transition: "height 0.2s ease" }}
-      className="bg-white dark:bg-[#1e1e1e]"
+      className="min-h-screen bg-white dark:bg-[#1e1e1e] overflow-visible pb-20"
     >
       {fileData && (
-        <Excalidraw
-          theme={currentTheme === "dark" ? "dark" : "light"} 
-          initialData={{
-            elements: fileData?.whiteboard && JSON.parse(fileData?.whiteboard),
-          }}
-          onChange={(elements) => setWhiteBoardData(elements)}
-          UIOptions={{
-            canvasActions: {
-              toggleTheme: false, 
-            },
-          }}
-        >
-          <MainMenu>
-            <MainMenu.DefaultItems.ClearCanvas />
-            <MainMenu.DefaultItems.Export />
-            <MainMenu.DefaultItems.CommandPalette />
-            <MainMenu.DefaultItems.ChangeCanvasBackground />
-          </MainMenu>
+        <div className="w-full h-[150vh] sm:h-[200vh] md:h-[250vh] relative">
+          {/* The height values make it vertically long enough to scroll */}
+          <Excalidraw
+            theme={currentTheme === "dark" ? "dark" : "light"}
+            initialData={{
+              elements:
+                fileData?.whiteboard && JSON.parse(fileData?.whiteboard),
+            }}
+            onChange={(elements) => setWhiteBoardData(elements)}
+            UIOptions={{
+              canvasActions: {
+                toggleTheme: false,
+              },
+            }}
+          >
+            <MainMenu>
+              <MainMenu.DefaultItems.ClearCanvas />
+              <MainMenu.DefaultItems.Export />
+              <MainMenu.DefaultItems.CommandPalette />
+              <MainMenu.DefaultItems.ChangeCanvasBackground />
+            </MainMenu>
 
-          <WelcomeScreen>
-            <WelcomeScreen.Hints.MenuHint />
-            <WelcomeScreen.Hints.ToolbarHint />
-            <WelcomeScreen.Center>
-              <WelcomeScreen.Center.MenuItemHelp />
-            </WelcomeScreen.Center>
-          </WelcomeScreen>
-        </Excalidraw>
+            <WelcomeScreen>
+              <WelcomeScreen.Hints.MenuHint />
+              <WelcomeScreen.Hints.ToolbarHint />
+              <WelcomeScreen.Center>
+                <WelcomeScreen.Center.MenuItemHelp />
+              </WelcomeScreen.Center>
+            </WelcomeScreen>
+          </Excalidraw>
+        </div>
       )}
     </div>
   );
