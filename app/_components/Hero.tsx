@@ -20,15 +20,6 @@ function Hero() {
         <p className="mt-6 text-lg sm:text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto">
           All-in-one markdown editor, collaborative canvas, and diagram-as-code builder.
         </p>
-
-        {/* <div className="mt-8 flex justify-center gap-4">
-          <button className="px-5 py-2.5 rounded-lg bg-sky-500 hover:bg-sky-600 text-white font-semibold transition-all">
-            Get Started
-          </button>
-          <button className="px-5 py-2.5 rounded-lg border border-sky-400 text-sky-300 hover:bg-sky-800/20 font-semibold transition-all">
-            Learn More
-          </button>
-        </div> */}
       </div>
     </main>
   );

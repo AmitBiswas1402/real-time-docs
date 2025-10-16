@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   title: "FlowNote - Write. Draw. Flow.",
   description: "A unified workspace for notes and creative canvas design.",
   icons: {
-    icon: "/favi.png",
+    icon: "/logo.svg",
   },
 };
 
